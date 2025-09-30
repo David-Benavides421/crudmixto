@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Proyectos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Proyectos</h1>
+
+<form th:action="@{/proyectos/guardar}" th:object="${proyecto}" method="post">
+    <div>
+        <label>Nombre</label>
+        <input type="text" th:field="*{nombre}" />
+    </div>
+    <div>
+        <label>Descripción</label>
+        <input type="text" th:field="*{descripcion}" />
+    </div>
+    <div>
+        <label>Empleado</label>
+        <select th:field="*{empleadoId}">
+            <option th:each="e : ${empleados}" th:value="${e.id}" th:text="${e.nombre} + ' - ' + ${e.cargo}"></option>
+        </select>
+    </div>
+    <div><button type="submit">Crear Proyecto</button></div>
+</form>
+
+<hr/>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>EmpleadoId</th><th>Acciones</th></tr></thead>
+    <tbody>
+    <tr th:each="p : ${proyectos}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.nombre}"></td>
+        <td th:text="${p.descripcion}"></td>
+        <td th:text="${p.empleadoId}"></td>
+        <td>
+            <a th:href="@{'/proyectos/' + ${p.id}}">Ver</a> |
+            <a th:href="@{'/proyectos/eliminar/' + ${p.id}}"
+               onclick="return confirm('Eliminar proyecto?');">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p><a th:href="@{/empleados}">Ir a Empleados</a></p>
+</body>
+</html>

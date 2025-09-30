@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Empleados</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Empleados</h1>
+
+<form th:action="@{/empleados/guardar}" th:object="${empleado}" method="post">
+    <div>
+        <label>Nombre</label>
+        <input type="text" th:field="*{nombre}" />
+    </div>
+    <div>
+        <label>Cargo</label>
+        <input type="text" th:field="*{cargo}" />
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" th:field="*{email}" />
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+    </div>
+</form>
+
+<div th:if="${error}" style="color:red;">
+    <p th:text="${error}"></p>
+</div>
+
+<hr/>
+
+<form method="get" action="#" th:action="@{/empleados}">
+    <input type="text" name="q" th:value="${q}" placeholder="Buscar por nombre o cargo" />
+    <button type="submit">Buscar</button>
+    <a th:href="@{/empleados}">Limpiar</a>
+</form>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Email</th><th>Acciones</th></tr></thead>
+    <tbody>
+    <tr th:each="e : ${empleados}">
+        <td th:text="${e.id}"></td>
+        <td th:text="${e.nombre}"></td>
+        <td th:text="${e.cargo}"></td>
+        <td th:text="${e.email}"></td>
+        <td>
+            <a th:href="@{'/empleados/' + ${e.id} + '/proyectos'}">Ver Proyectos</a> |
+            <a th:href="@{'/empleados/eliminar/' + ${e.id}}"
+               onclick="return confirm('Eliminar empleado?');">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p><a th:href="@{/proyectos}">Ir a Proyectos</a></p>
+</body>
+</html>
