@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes - CrudMixto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Reportes Combinados</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Empleados con sus Proyectos</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Empleado</th>
+                                <th>Cargo</th>
+                                <th>Email</th>
+                                <th>Proyectos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${empleadosConProyectos}">
+                                <td th:text="${item.empleado.nombre + ' ' + item.empleado.apellido}"></td>
+                                <td th:text="${item.empleado.cargo}"></td>
+                                <td th:text="${item.empleado.email}"></td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        <li th:each="proyecto : ${item.proyectos}" th:text="${proyecto.nombre}"></li>
+                                        <li th:if="${#lists.isEmpty(item.proyectos)}">Sin proyectos</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h3>Proyectos con Empleados</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Proyecto</th>
+                                <th>Descripción</th>
+                                <th>Empleado Asignado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${proyectosConEmpleados}">
+                                <td th:text="${item.proyecto.nombre}"></td>
+                                <td th:text="${item.proyecto.descripcion}"></td>
+                                <td th:text="${item.empleado != null ? item.empleado.nombre + ' ' + item.empleado.apellido : 'Sin asignar'}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="/empleados" class="btn btn-secondary">Volver a Empleados</a>
+            <a href="/proyectos" class="btn btn-secondary">Volver a Proyectos</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
