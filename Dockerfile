@@ -1,7 +1,7 @@
 # -------------------------
 # FASE DE COMPILACIÓN
 # -------------------------
-FROM maven:3.9.9-eclipse-temurin-17 AS build
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 # Definir directorio de trabajo
 WORKDIR /app
@@ -17,8 +17,8 @@ RUN mvn clean package -DskipTests
 # -------------------------
 # FASE DE EJECUCIÓN (Usando una imagen más ligera)
 # -------------------------
-# CAMBIO CLAVE: Usamos '17-jre' en lugar de '17-jre-slim'
-FROM eclipse-temurin:17-jre
+# CAMBIO CLAVE: Usamos '21-jre' en lugar de '21-jre-slim'
+FROM eclipse-temurin:21-jre
 
 # Definir variables de entorno de JVM para optimización de contenedor
 ENV JAVA_OPTS="-XX:+ExitOnOutOfMemoryError -XX:+UseG1GC"
