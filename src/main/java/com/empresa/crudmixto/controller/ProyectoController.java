@@ -1,6 +1,7 @@
 package com.empresa.crudmixto.controller;
 
 import com.empresa.crudmixto.entity.Proyecto;
+import com.empresa.crudmixto.entity.Empleado;
 import com.empresa.crudmixto.entity.Tarea;
 import com.empresa.crudmixto.service.ProyectoService;
 import com.empresa.crudmixto.service.EmpleadoService;
@@ -37,9 +38,23 @@ public class ProyectoController {
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("proyectos", proyectoService.listar());
+        List<Proyecto> proyectos = proyectoService.listar();
+        List<Empleado> empleados = empleadoService.listar();
+
+        // Asignar nombre y cargo al proyecto
+        for (Proyecto p : proyectos) {
+            empleados.stream()
+                    .filter(e -> e.getId().equals(p.getEmpleadoId()))
+                    .findFirst()
+                    .ifPresent(e -> {
+                        p.setNombreEmpleado(e.getNombre());
+                        p.setCargoEmpleado(e.getCargo());
+                    });
+        }
+
+        model.addAttribute("proyectos", proyectos);
         model.addAttribute("proyecto", new Proyecto());
-        model.addAttribute("empleados", empleadoService.listar());
+        model.addAttribute("empleados", empleados);
         return "proyectos";
     }
 

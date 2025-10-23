@@ -1,6 +1,7 @@
 package com.empresa.crudmixto.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -19,6 +20,13 @@ public class Proyecto {
 
     // referencia al empleado en MySQL
     private Long empleadoId;
+
+    // campos transient para mostrar datos del empleado
+    @Transient
+    private String nombreEmpleado;
+
+    @Transient
+    private String cargoEmpleado;
 
     // lista de tareas (IDs de documentos Tarea)
     private List<String> tareasIds = new ArrayList<>();
@@ -43,6 +51,12 @@ public class Proyecto {
 
     public Long getEmpleadoId() { return empleadoId; }
     public void setEmpleadoId(Long empleadoId) { this.empleadoId = empleadoId; }
+
+    public String getNombreEmpleado() { return nombreEmpleado; }
+    public void setNombreEmpleado(String nombreEmpleado) { this.nombreEmpleado = nombreEmpleado; }
+
+    public String getCargoEmpleado() { return cargoEmpleado; }
+    public void setCargoEmpleado(String cargoEmpleado) { this.cargoEmpleado = cargoEmpleado; }
 
     public List<String> getTareasIds() { return tareasIds; }
     public void setTareasIds(List<String> tareasIds) { this.tareasIds = tareasIds; }

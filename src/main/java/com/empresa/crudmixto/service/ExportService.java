@@ -27,8 +27,9 @@ public class ExportService {
         Row headerRow = sheet.createRow(0);
         headerRow.createCell(0).setCellValue("ID");
         headerRow.createCell(1).setCellValue("Nombre");
-        headerRow.createCell(2).setCellValue("Cargo");
-        headerRow.createCell(3).setCellValue("Email");
+        headerRow.createCell(2).setCellValue("Apellido");
+        headerRow.createCell(3).setCellValue("Cargo");
+        headerRow.createCell(4).setCellValue("Email");
 
         // Data
         int rowNum = 1;
@@ -36,8 +37,9 @@ public class ExportService {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(emp.getId());
             row.createCell(1).setCellValue(emp.getNombre());
-            row.createCell(2).setCellValue(emp.getCargo());
-            row.createCell(3).setCellValue(emp.getEmail());
+            row.createCell(2).setCellValue(emp.getApellido());
+            row.createCell(3).setCellValue(emp.getCargo());
+            row.createCell(4).setCellValue(emp.getEmail());
         }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -83,15 +85,17 @@ public class ExportService {
 
         document.add(new Paragraph("Lista de Empleados").setFontSize(18));
 
-        Table table = new Table(4);
+        Table table = new Table(5);
         table.addHeaderCell("ID");
         table.addHeaderCell("Nombre");
+        table.addHeaderCell("Apellido");
         table.addHeaderCell("Cargo");
         table.addHeaderCell("Email");
 
         for (Empleado emp : empleados) {
             table.addCell(String.valueOf(emp.getId()));
             table.addCell(emp.getNombre());
+            table.addCell(emp.getApellido());
             table.addCell(emp.getCargo());
             table.addCell(emp.getEmail());
         }

@@ -4,11 +4,9 @@ import com.empresa.crudmixto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -48,6 +46,13 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+        // Allow logout via GET and POST (support both) to avoid 404 from simple links while keeping POST support
+        .logoutRequestMatcher(new org.springframework.security.web.util.matcher.OrRequestMatcher(
+            new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/logout", "GET"),
+            new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/logout", "POST")
+        ))
                 .permitAll()
             );
 
